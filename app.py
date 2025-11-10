@@ -3,9 +3,9 @@ import joblib
 
 # --- Load Your Saved Pipeline ---
 try:
-    model = joblib.load('spam_detector_model.joblib')
+    model = joblib.load('spam_model_v2.joblib')
 except FileNotFoundError:
-    st.error("Model file not found! Make sure 'spam_detector_model.joblib' is in the same folder as this app.")
+    st.error("Model file not found! Make sure 'spam_model_v2.joblib' is in the same folder as this app.")
     st.stop() # Don't run the rest of the app
 
 # --- Helper Function for Keyword Counter ---
