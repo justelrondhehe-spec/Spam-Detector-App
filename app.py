@@ -1,3 +1,4 @@
+import re
 import streamlit as st
 import joblib
 
@@ -21,7 +22,9 @@ def count_spam_keywords(text):
     count = 0
     found_words = []
     for word in SPAM_KEYWORDS:
-        if word in text:
+        # NEW: We use re.search with \b (word boundary)
+        # This stops it from finding "win" inside "expiring" or "following"
+        if re.search(r'\b' + re.escape(word) + r'\b', text):
             count += 1
             found_words.append(word)
     return count, found_words
