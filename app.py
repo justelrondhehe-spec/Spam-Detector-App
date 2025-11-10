@@ -2,15 +2,13 @@ import re
 import streamlit as st
 import joblib
 
-# --- Load Your Saved Pipeline ---
 try:
     model = joblib.load('spam_model_v5-5.joblib')
 except FileNotFoundError:
     st.error("Model file not found! Make sure 'spam_model_v5-5.joblib' is in the same folder as this app.")
-    st.stop() # Don't run the rest of the app
+    st.stop() 
 
-# --- Helper Function for Keyword Counter ---
-# Define a list of common spam keywords
+
 SPAM_KEYWORDS = [
     'free', 'win', 'winner', 'prize', 'claim', 'urgent', 'congratulations', 
     'click', 'limited', 'offer', 'viagra', 'money', 'cash', '100%', '$$$',
@@ -22,14 +20,12 @@ def count_spam_keywords(text):
     count = 0
     found_words = []
     for word in SPAM_KEYWORDS:
-        # NEW: We use re.search with \b (word boundary)
-        # This stops it from finding "win" inside "expiring" or "following"
+        
         if re.search(r'\b' + re.escape(word) + r'\b', text):
             count += 1
             found_words.append(word)
     return count, found_words
 
-# --- Sidebar ---
 st.sidebar.title("About This App")
 st.sidebar.info(
     """
@@ -47,14 +43,12 @@ st.sidebar.write("Jhon Nicholson Manalang")
 st.sidebar.write("Aaron James Jared Papa")
 st.sidebar.write("Ryan Kristoffer Suganob")
 
-# --- Main App UI ---
 st.set_page_config(page_title="Email Spam Detector", page_icon="📧")
 st.title("📧 Email Spam Detector")
 st.write("Check if an email is spam by typing it in or uploading a .txt file.")
 
 tab1, tab2 = st.tabs(["Check by Text", "Check by File Upload"])
 
-# --- Tab 1: Check by Text ---
 with tab1:
     st.subheader("Compose an email to check")
     
@@ -69,12 +63,12 @@ with tab1:
 
         if subject_input or body_input:
             
-            # --- NEW: Get probability scores ---
+  
             probabilities = model.predict_proba([full_email_text])
-            prediction = probabilities.argmax() # 0 for ham, 1 for spam
-            confidence = probabilities.max() * 100 # Get the highest score
+            prediction = probabilities.argmax() 
+            confidence = probabilities.max() * 100 
             
-            # --- NEW: Keyword counter ---
+        
             keyword_count, found_words = count_spam_keywords(full_email_text)
 
             st.subheader("Result:")
@@ -88,7 +82,7 @@ with tab1:
         else:
             st.warning("Please enter a subject or body text to check.")
 
-# --- Tab 2: Check by File Upload ---
+
 with tab2:
     st.subheader("Upload an email file to check")
     
@@ -100,12 +94,12 @@ with tab2:
                 bytes_data = uploaded_file.getvalue()
                 file_text = bytes_data.decode("utf-8")
                 
-                # --- NEW: Get probability scores ---
+              
                 probabilities = model.predict_proba([file_text])
-                prediction = probabilities.argmax() # 0 for ham, 1 for spam
-                confidence = probabilities.max() * 100 # Get the highest score
+                prediction = probabilities.argmax() 
+                confidence = probabilities.max() * 100 
                 
-                # --- NEW: Keyword counter ---
+              
                 keyword_count, found_words = count_spam_keywords(file_text)
 
                 st.subheader("Result:")
