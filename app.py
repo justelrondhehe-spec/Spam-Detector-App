@@ -4,9 +4,9 @@ import joblib
 
 # --- Load Your Saved Pipeline ---
 try:
-    model = joblib.load('spam_model_v2.joblib')
+    model = joblib.load('spam_model_v3.joblib')
 except FileNotFoundError:
-    st.error("Model file not found! Make sure 'spam_model_v2.joblib' is in the same folder as this app.")
+    st.error("Model file not found! Make sure 'spam_model_v3.joblib' is in the same folder as this app.")
     st.stop() # Don't run the rest of the app
 
 # --- Helper Function for Keyword Counter ---
@@ -35,7 +35,7 @@ st.sidebar.info(
     """
     This app uses a **Multinomial Naive Bayes** classifier to detect email spam.
     
-    The model was trained on the "Email Spam Detection" dataset from Kaggle.
+    The model was trained on the "Email Spam Detection V3" dataset from Kaggle.
     """
 )
 st.sidebar.title("**Created By:**")
