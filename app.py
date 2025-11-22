@@ -74,7 +74,7 @@ st.sidebar.markdown(
     robust against both common spam and legitimate corporate emails.
     
     Model Version: **v5**  
-    Date Updated: **November 11, 2025**
+    Date Updated: **November 22, 2025**
     """
 )
 st.sidebar.title("Created By")
